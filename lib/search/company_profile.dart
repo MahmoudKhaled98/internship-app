@@ -38,6 +38,8 @@ class _ProfileScreanState extends State<ProfileScrean> {
       if(snapshot == null){
         return;
       }else{
+        User? user = _auth.currentUser;
+        final _uid = user!.uid;
         setState((){
           email = json['email'];
           name = json['name'];
@@ -47,8 +49,7 @@ class _ProfileScreanState extends State<ProfileScrean> {
           var joinedDate = joinedAtTimeStamp.toDate();
           joinedAt = '${joinedDate.year}-${joinedDate.month}-${joinedDate.day}';
         });
-        User? user = _auth.currentUser;
-        final _uid = user!.uid;
+
         setState((){
           _isSameUser = _uid == widget.userID;
         });
@@ -59,8 +60,9 @@ class _ProfileScreanState extends State<ProfileScrean> {
   }
 
   void initState(){
-    super.initState();
     getUserData();
+    super.initState();
+
   }
 
   @override

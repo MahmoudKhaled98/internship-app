@@ -45,32 +45,116 @@ Map<String,dynamic> json=snapshot.data()!;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+   bool isDescending=false;
+   String type="all";
     return Scaffold(
       bottomNavigationBar: BottomNavForApp(indexNum: 0,),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: Icon(Icons.filter_list_outlined,
-          color: Colors.orange,
-          ),
-          onPressed: (){},
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.search_outlined, color: Colors.orange,),
-            onPressed: (){
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (c) => SearchScreen()));
-            },
-          ),
-        ],
+        // leading: Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //   children: [
+        //     PopupMenuButton(
+        //       itemBuilder: (context)=>[
+        //         PopupMenuItem(
+        //
+        //           child:
+        //             Text("Developer",style:TextStyle(color:Colors.orange,fontWeight: FontWeight.bold)),
+        //           onTap: (){
+        //             setState((){type='Developer';});
+        //           },
+        //             ),
+        //         PopupMenuItem(
+        //           child:
+        //           Text("Programing",style:TextStyle(color:Colors.orange,fontWeight: FontWeight.bold)),
+        //           onTap: (){
+        //             setState((){type='Programing';});
+        //           },
+        //         ),
+        //         PopupMenuItem(
+        //           child:
+        //           Text("Information Technology",style:TextStyle(color:Colors.orange,fontWeight: FontWeight.bold)),
+        //           onTap: (){
+        //             setState((){type='Information Technology';});
+        //           },
+        //         ),
+        //         PopupMenuItem(
+        //           child:
+        //           Text("Software Engineering",style:TextStyle(color:Colors.orange,fontWeight: FontWeight.bold)),
+        //           onTap: (){
+        //             setState((){type='Software Engineering';});
+        //           },
+        //         ),
+        //         PopupMenuItem(
+        //           child:
+        //           Text("Software Developer",style:TextStyle(color:Colors.orange,fontWeight: FontWeight.bold)),
+        //           onTap: (){
+        //             setState((){type='Software Developer';});
+        //           },
+        //         ),
+        //         PopupMenuItem(
+        //           child:
+        //           Text("BlockChain",style:TextStyle(color:Colors.orange,fontWeight: FontWeight.bold)),
+        //           onTap: (){
+        //             setState((){type="BlockChain";});
+        //           },
+        //         ),
+        //         PopupMenuItem(
+        //           child:
+        //           Text("Cyber Security",style:TextStyle(color:Colors.orange,fontWeight: FontWeight.bold)),
+        //           onTap: (){
+        //             setState((){type='Cyber Security';});
+        //           },
+        //         ),
+        //         PopupMenuItem(
+        //           child:
+        //           Text("Data Science",style:TextStyle(color:Colors.orange,fontWeight: FontWeight.bold)),
+        //           onTap: (){
+        //             setState((){type='Data Science';});
+        //           },
+        //         ),
+        //         PopupMenuItem(
+        //           child:
+        //           Text("Computer Science",style:TextStyle(color:Colors.orange,fontWeight: FontWeight.bold)),
+        //           onTap: (){
+        //             setState((){type='Computer Science';});
+        //           },
+        //         ),
+        //         PopupMenuItem(
+        //           child:
+        //           Text("Ui Designer",style:TextStyle(color:Colors.orange,fontWeight: FontWeight.bold)),
+        //           onTap: (){
+        //             setState((){type='Ui Designer';});
+        //           },
+        //         ),
+        //
+        //       ],
+        //
+        //       icon: Icon(Icons.filter_list_outlined,
+        //       color: Colors.orange,
+        //       ),
+        //
+        //
+        //     ),
+        //
+        //   ],
+        // ),
+        // actions: [
+        //   IconButton(
+        //     icon: Icon(Icons.search_outlined, color: Colors.orange,),
+        //     onPressed: (){
+        //       Navigator.pushReplacement(context, MaterialPageRoute(builder: (c) => SearchScreen()));
+        //     },
+        //   ),
+        // ],
       ),
         body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
           stream: FirebaseFirestore.instance
               .collection('jobs')
               .where('jobCategory', isEqualTo: jobCategoryFilter)
               .where('recruitment', isEqualTo: true)
-              // .orderBy('createdAt', descending: false)// عدلت هنا (عملd )
+              .orderBy('createAt', descending: isDescending)
               .snapshots(),
           builder: (context, snapshot){
             if(snapshot.connectionState == ConnectionState.waiting){
@@ -78,6 +162,7 @@ Map<String,dynamic> json=snapshot.data()!;
             }
             else if(snapshot.connectionState == ConnectionState.active){
               if(snapshot.data?.docs.isNotEmpty == true){
+
                 return ListView.builder(
                     itemCount: snapshot.data?.docs.length,
                     itemBuilder: (BuildContext context, int index){
