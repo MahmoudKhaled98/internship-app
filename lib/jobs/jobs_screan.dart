@@ -52,7 +52,8 @@ Map<String,dynamic> json=snapshot.data()!;
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
-        // leading: Row(
+        // leading:
+        // Row(
         //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         //   children: [
         //     PopupMenuButton(
@@ -140,14 +141,14 @@ Map<String,dynamic> json=snapshot.data()!;
         //
         //   ],
         // ),
-        // actions: [
-        //   IconButton(
-        //     icon: Icon(Icons.search_outlined, color: Colors.orange,),
-        //     onPressed: (){
-        //       Navigator.pushReplacement(context, MaterialPageRoute(builder: (c) => SearchScreen()));
-        //     },
-        //   ),
-        // ],
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search_outlined, color: Colors.orange,),
+            onPressed: (){
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (c) => SearchScreen()));
+            },
+          ),
+        ],
       ),
         body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
           stream: FirebaseFirestore.instance
